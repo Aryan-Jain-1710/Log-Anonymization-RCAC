@@ -1,0 +1,15 @@
+recognizers:
+    
+  -
+  
+    name: "SSH Key Recognizer"
+    supported_language: "en"
+    patterns:
+      -
+          name: "ssh (weak)"
+          regex: "\"key\": \"(.*?)\""
+          score: 0.01
+    context:
+      - key
+      - ssh
+    supported_entity: "SSH Key"

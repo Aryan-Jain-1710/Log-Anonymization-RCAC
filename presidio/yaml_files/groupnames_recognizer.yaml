@@ -1,0 +1,9 @@
+recognizers:
+  -
+    name: "Group names recognizer"
+    supported_language: "en"
+    supported_entity: "GROUP_NAMES"
+    deny_list:
+        # format for deny_list
+        # - xyz_groupname
+        # - abc_groupname

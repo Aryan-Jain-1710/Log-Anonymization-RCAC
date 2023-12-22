@@ -1,0 +1,9 @@
+recognizers:
+  -
+    name: "Usernames recognizer"
+    supported_language: "en"
+    supported_entity: "USERS"
+    deny_list:
+        # format for deny_list
+        # - xyz_user
+        # - abc_user

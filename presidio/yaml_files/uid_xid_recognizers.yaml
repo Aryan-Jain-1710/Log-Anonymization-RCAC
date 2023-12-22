@@ -1,0 +1,28 @@
+recognizers:
+  -
+    name: "xid recognizer"
+    supported_language: "en"
+    patterns:
+      -
+          name: "xid (weak)"
+          regex: "\\(xid=.*?\\)"
+          score: 0.01
+    context:
+      - xid
+    supported_entity: "XID"
+
+  -
+    name: "uid recognizer"
+    supported_language: "en"
+    patterns:
+      -
+          name: "uid (weak)"
+          regex: "UID [0-9][0-9][0-9][0-9][0-9][0-9]"
+          score: 0.01
+    context:
+      - uid 
+      - UID
+      - uuid
+      - partuuid
+      - "uid"
+    supported_entity: "UID"

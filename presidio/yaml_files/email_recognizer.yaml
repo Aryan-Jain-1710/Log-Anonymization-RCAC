@@ -1,0 +1,9 @@
+recognizers:
+  -
+    name: "Email recognizer"
+    supported_language: "en"
+    supported_entity: "EMAILS"
+    deny_list:
+        # format for deny_list:
+        # - xyz@email.com
+        # - abc@email.com

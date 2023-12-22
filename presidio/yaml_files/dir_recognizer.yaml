@@ -1,0 +1,14 @@
+recognizers:
+    
+  -
+    name: "Directory Path Recognizer"
+    supported_language: "en"
+    patterns:
+      -
+          name: "dir_path (weak)"
+          regex: "(path|(D|d)irectory)( )+(')*(\/[A-Za-z0-9._-]*)+(')*(:)*(,)*(\\.)*"
+          score: 0.01
+    context:
+      - path
+      - directory
+    supported_entity: "DirPath Key"
