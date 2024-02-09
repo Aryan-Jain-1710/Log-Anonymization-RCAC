@@ -116,6 +116,7 @@ def main():
     #intializing the engine
     anonymizer = AnonymizerEngine();
 
+
     #anonymized result
     an_output = anonymizer.anonymize(text=content, analyzer_results=results)
 
