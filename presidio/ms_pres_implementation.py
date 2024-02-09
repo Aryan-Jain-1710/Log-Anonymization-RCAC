@@ -3,6 +3,7 @@ from typing import List
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import RecognizerResult
 from presidio_analyzer.predefined_recognizers import IpRecognizer
+import argparse
 
 
 
@@ -80,6 +81,18 @@ def main():
 
     # get_group_names("/home/jain467/Desktop/Anonymization of Syslogs/MS-Presidio-RCAC-Implementation/user_list/groupnames.txt")
 
+    parser = argparse.ArgumentParser(description="input output file names")
+
+    parser = argparse.ArgumentParser(description='Input Output Parser')
+    parser.add_argument('-i', '--input', type=str, help='Input file path', required=True)
+    parser.add_argument('-o', '--output', type=str, help='Output file path', required=True)
+    
+    args = parser.parse_args()
+    
+    input_file = args.input
+    output_file = args.output
+
+ 
     # instantiate registry
     registry = create_recognizer_registry()
 
@@ -87,8 +100,7 @@ def main():
     analyzer = AnalyzerEngine(registry=registry) # or your custom way of creating the analyzer engine
     
     # reading the system log message
-    # TODO - enter path of the system log to test for  as first parameter in open() function
-    with open("", 'r') as file:
+    with open(input_file, 'r') as file:
         content = file.read()
 
     print(analyzer.get_recognizers(language='en')) # print list of all recognizers
@@ -108,7 +120,7 @@ def main():
     an_output = anonymizer.anonymize(text=content, analyzer_results=results)
 
     # output anonymized message
-    with open("an_output.txt", 'w') as file:
+    with open(output_file, 'w') as file:
         file.write(str(an_output))    
     
 
