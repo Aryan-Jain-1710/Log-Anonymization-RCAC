@@ -1,11 +1,10 @@
 # How to Run
 
-- Create recognizers using yaml_files as per requirement.
-- Make sure to include path of the yaml files:
+- Create recognizers using yaml_files as per your need.
+- Make sure to include the absolute/relative path of the YAML files:
     ```bash
     registry.add_recognizers_from_yaml(<yaml_file_path>)
     ```
-- 
 
 ---
 
