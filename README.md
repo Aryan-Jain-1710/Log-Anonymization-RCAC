@@ -20,7 +20,8 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 
 ### Project Structure:
 
-- **ms_pres_implementation.py**: the main file of the framework that creates instances of all the yaml file recognizers and uses them to generate an anonymized system log files.
+- **main_implementation.py**: the main file of the framework that creates instances of all the yaml file recognizers and uses them to generate an anonymized system log files.
+- **operator_typehash.py**: created a new operator class that can be added to the existing list of anonymizing operators and be used to anonymize the analyzed content.
 - **yaml_files/email_recognizer.yaml**: list of all emails that should be anonymized, the user must provide a list according to the template provided in the file.
 - **yaml_files/user_recognizer.yaml**: list of all user names that should be anonymized, the user must provide a list according to the template provided in the file.
 - **yaml_files/groupnames_recognizer.yaml**: list of all group names that should be anonymized, the user must provide a list according to the template provided in the file.
@@ -36,7 +37,7 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Creating an instance of a recognizer registry that contains all the custom recognizers created.
 2. Instantiating the analyzer that identifies all the sensitive data.
 3. Reading the log file and calling on the analyzer to identify the sensitive data.
-4. Instantiating the anonymizer and using it to replace the sensitive data with sensitive data attribute name.
+4. Instantiating the anonymizer and using it to replace the sensitive data with sensitive data attribute name and hashed value.
 
 ---
 ### Dependencies
@@ -45,6 +46,9 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 - **presidio_anonymizer**
 - **presidio_anonymizer.entities**
 - **presidio_analyzer.predefined_recognizers**
+- **argparse**
+- **typing**
+- **presidio_anonymizer.operators**
 
 ---
 ### Setup
@@ -71,7 +75,7 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Run the main file:
 
     ```bash
-    python Log-Anonymization-RCAC-share/presidio/ms_pres_implementation.py
+    python Log-Anonymization-RCAC-share/presidio/ms_pres_implementation.py -i <input_sys_log_name> -o <output_file_name>
     ```
 
 
