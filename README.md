@@ -75,7 +75,7 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Run the main file:
 
     ```bash
-    python Log-Anonymization-RCAC-share/presidio/ms_pres_implementation.py -i <input_sys_log_name> -o <output_file_name>
+    python Log-Anonymization-RCAC-share/presidio/main_implementation.py -i <input_sys_log_name> -o <output_file_name>
     ```
 
 
