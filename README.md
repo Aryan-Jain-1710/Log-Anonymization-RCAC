@@ -56,8 +56,8 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/Aryan-Jain-1710/Log-Anonymization-RCAC-share.git
-    cd Log-Anonymization-RCAC-share
+    git clone https://github.com/Aryan-Jain-1710/Log-Anonymization-RCAC.git
+    cd Log-Anonymization-RCAC
     cd presidio
     ```
 
