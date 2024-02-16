@@ -8,9 +8,6 @@ from presidio_anonymizer.entities import RecognizerResult, OperatorConfig
 import operator_typehash
 import presidio_anonymizer.operators
 
-import os
-
-
 
 
 # To generate list of users for yaml file
@@ -69,19 +66,19 @@ def create_recognizer_registry():
 
 
     # adding the user recognizer
-    registry.add_recognizers_from_yaml("private_yaml_files/user_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/user_recognizer.yaml")
 
 
     # adding email recognizer
-    registry.add_recognizers_from_yaml("private_yaml_files/email_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/email_recognizer.yaml")
 
 
     # adding group names
-    registry.add_recognizers_from_yaml("private_yaml_files/groupnames_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/groupnames_recognizer.yaml")
 
 
     # adding directory/ file paths
-    registry.add_recognizers_from_yaml("private_yaml_files/dir_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/dir_recognizer.yaml")
 
 
     # adding ip address
@@ -93,15 +90,15 @@ def create_recognizer_registry():
 
 
     # adding job id
-    registry.add_recognizers_from_yaml("private_yaml_files/job_id_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/job_id_recognizer.yaml")
 
 
     # adding ssh keys
-    registry.add_recognizers_from_yaml("private_yaml_files/ssh_recognizer.yaml")
+    registry.add_recognizers_from_yaml("private_files/yaml_files/ssh_recognizer.yaml")
 
 
     # adding the xid and uid recognizer 
-    registry.add_recognizers_from_yaml("private_yaml_files/uid_xid_recognizers.yaml")  
+    registry.add_recognizers_from_yaml("private_files/yaml_files/uid_xid_recognizers.yaml")  
 
 
     # returning the entire registry
@@ -125,7 +122,6 @@ def main():
 
 
 
-
     # instantiate registry
     registry = create_recognizer_registry()
 
@@ -140,13 +136,17 @@ def main():
 
 
     # print list of all recognizers
+    print("\nList of Recognizers:")
     print(analyzer.get_recognizers(language='en')) 
 
 
     # run analyzer
     results = analyzer.analyze(text=content, language="en") 
 
- 
+
+    print("\n\nContent Analyzed...")
+
+
     # intializing the anonymizer engine
     anonymizer = AnonymizerEngine()
 
@@ -167,6 +167,9 @@ def main():
     # output anonymized message
     with open(output_file, 'w') as file:
         file.write(str(anonymized_output))    
+
+
+    print("\n\nContent Anonymized and written to output file given by user...")
 
 
 
