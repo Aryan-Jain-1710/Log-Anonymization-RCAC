@@ -7,6 +7,8 @@ import argparse
 from presidio_anonymizer.entities import RecognizerResult, OperatorConfig
 import operator_typehash
 import presidio_anonymizer.operators
+import os
+import yaml
 
 
 
@@ -38,7 +40,7 @@ def get_group_names(filename):
 
 
 # function for creating customized registries
-def create_recognizer_registry():
+def create_recognizer_registry(yaml_dir):
 
     '''
     # intialize the registry
@@ -58,47 +60,21 @@ def create_recognizer_registry():
     
     '''
 
-
-
+    # fetching all yaml files
+    pwd = os.path.abspath(yaml_dir)
+    files = [os.path.join(pwd, file) for file in os.listdir(pwd) if os.path.isfile(os.path.join(pwd, file)) and file.endswith('.yaml')]
 
     # intialize the registry
     registry = RecognizerRegistry() 
 
-
-    # adding the user recognizer
-    registry.add_recognizers_from_yaml("private_files/yaml_files/user_recognizer.yaml")
-
-
-    # adding email recognizer
-    registry.add_recognizers_from_yaml("private_files/yaml_files/email_recognizer.yaml")
-
-
-    # adding group names
-    registry.add_recognizers_from_yaml("private_files/yaml_files/groupnames_recognizer.yaml")
-
-
-    # adding directory/ file paths
-    registry.add_recognizers_from_yaml("private_files/yaml_files/dir_recognizer.yaml")
-
+    # adding recognizres to the registry    
+    for file in files:
+        registry.add_recognizers_from_yaml(file)
+    
 
     # adding ip address
     ip_recog = IpRecognizer()
     registry.add_recognizer(ip_recog)  
-
-
-    # adding hostname (check)
-
-
-    # adding job id
-    registry.add_recognizers_from_yaml("private_files/yaml_files/job_id_recognizer.yaml")
-
-
-    # adding ssh keys
-    registry.add_recognizers_from_yaml("private_files/yaml_files/ssh_recognizer.yaml")
-
-
-    # adding the xid and uid recognizer 
-    registry.add_recognizers_from_yaml("private_files/yaml_files/uid_xid_recognizers.yaml")  
 
 
     # returning the entire registry
@@ -110,64 +86,77 @@ def create_recognizer_registry():
 
 def main():
 
-
     # input output flags
     parser = argparse.ArgumentParser(description='Input Output Parser')
-    parser.add_argument('-i', '--input', type=str, help='Input file path', required=True)
-    parser.add_argument('-o', '--output', type=str, help='Output file path', required=True)
-    
+    parser.add_argument('-i', '--input', type=str, help='Input File path', required=True)
+    parser.add_argument('-o', '--output', type=str, help='Output File path', required=True)
+    parser.add_argument('-y', '--yaml', type=str, help='Yaml Directory path', required=True)
+    parser.add_argument('-e', '--entity', type=str, help='Entity Types Yaml File path', required=True)
+
+    # creating parser
     args = parser.parse_args()
+
+    # input file check
     input_file = args.input
+    if not os.path.isfile(input_file): return 0
+
+    # output file check
     output_file = args.output
+    if not os.path.isfile(output_file): return 0
+    
+    # yaml dir check
+    yaml_dir = args.yaml
+    if not os.path.exists(yaml_dir): return 0
+    
+    # entity file check
+    entity_file = args.entity
+    if not os.path.isfile(entity_file): return 0
 
 
+    # adding operators
+    with open(entity_file, 'r') as file:
+            yaml_data = yaml.safe_load(file)
+
+    # changing yaml data into list type
+    result_list = list(yaml_data)
+
+    # creating operators dictionary
+    ops = {}
+    for item in result_list:
+        ops["\""+item+"\""] = "OperatorConfig(\"typehash\",)"
 
     # instantiate registry
-    registry = create_recognizer_registry()
-
+    registry = create_recognizer_registry(yaml_dir)
 
     # instantiate analyzer
     analyzer = AnalyzerEngine(registry=registry) # or your custom way of creating the analyzer engine
 
-
-    # reading the system log message
+    # reading the input file - system log message
     with open(input_file, 'r') as file:
         content = file.read()
-
 
     # print list of all recognizers
     print("\nList of Recognizers:")
     print(analyzer.get_recognizers(language='en')) 
 
-
     # run analyzer
     results = analyzer.analyze(text=content, language="en") 
 
-
+    # letting user know that sensitive info has been identified
     print("\n\nContent Analyzed...")
-
 
     # intializing the anonymizer engine
     anonymizer = AnonymizerEngine()
 
-
-    # adding new operator
+    # adding new operator TYPEHASH
     presidio_anonymizer.operators.__all__.append(operator_typehash)
 
-
     # anonymized result
-    anonymized_output = anonymizer.anonymize(text=content, analyzer_results=results, 
-                                     operators={ "XID": OperatorConfig("typehash",), "IP_ADDRESS": OperatorConfig("typehash",),  
-                                                 "UID": OperatorConfig("typehash",), "DirPath Key": OperatorConfig("typehash",), 
-                                                 "USERS": OperatorConfig("typehash",), "SSH Key": OperatorConfig("typehash",),  
-                                                 "EMAILS": OperatorConfig("typehash",), "GROUP_NAMES": OperatorConfig("typehash",), 
-                                                 "JOB_ID": OperatorConfig("typehash",),  })
-
+    anonymized_output = anonymizer.anonymize(text=content, analyzer_results=results, operators=ops)
 
     # output anonymized message
     with open(output_file, 'w') as file:
         file.write(str(anonymized_output))    
-
 
     print("\n\nContent Anonymized and written to output file given by user...")
 
