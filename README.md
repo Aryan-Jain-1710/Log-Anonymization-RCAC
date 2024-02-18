@@ -6,7 +6,7 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 
 <br/>
 
-# Framework Goals
+## Framework Goals
 - Identify the sensitive data in the system log
 - Anonymize the sensitive data in the system log without loss of semantic
 
@@ -15,7 +15,7 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 <br/>
 
 
-# Implementation
+## Implementation
 
 
 ### Project Structure:
