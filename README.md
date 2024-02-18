@@ -20,15 +20,10 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 
 ### Project Structure:
 
-- **main_implementation.py**: the main file of the framework that creates instances of all the yaml file recognizers and uses them to generate an anonymized system log files.
-- **operator_typehash.py**: created a new operator class that can be added to the existing list of anonymizing operators and be used to anonymize the analyzed content.
-- **yaml_files/email_recognizer.yaml**: list of all emails that should be anonymized, the user must provide a list according to the template provided in the file.
-- **yaml_files/user_recognizer.yaml**: list of all user names that should be anonymized, the user must provide a list according to the template provided in the file.
-- **yaml_files/groupnames_recognizer.yaml**: list of all group names that should be anonymized, the user must provide a list according to the template provided in the file.
-
-- **yaml_files/ssh_recognizer.yaml**: regex and context words to identify ssh keys in the logs.
-- **yaml_files/dir_recognizer.yaml**: regex and context words to identify directory paths in the logs.
-- **yaml_files/uid_xid_recognizer.yaml**: regex and context words to identify uid and xid in the logs.
+- **presidio/main_implementation.py**: the main file of the framework that creates instances of all the YAML file recognizers and adds them to the recognizer registry to identify sensitive data and then adds a new operator class to anonymize the sensitive data without loss of semantics.
+- **presidio/operator_typehash.py**: created a new operator class that can be added to the existing list of anonymizing operators and be used to anonymize the analyzed content.
+- **presidio/yaml_files**: the directory contains all the YAML files that are used for recognizers.
+- **presidio/config.yaml**: this YAML file contains the names of all the entity types for which the recognizers are implemented.
 
 ---
 
@@ -37,7 +32,8 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Creating an instance of a recognizer registry that contains all the custom recognizers created.
 2. Instantiating the analyzer that identifies all the sensitive data.
 3. Reading the log file and calling on the analyzer to identify the sensitive data.
-4. Instantiating the anonymizer and using it to replace the sensitive data with sensitive data attribute name and hashed value.
+4. Instantiating the anonymizer and adding a new operator class for anonymization
+5. Anonymizing the sensitive data recognized without loss of sensitive data by replacing with entity names and hashed value.
 
 ---
 ### Dependencies
@@ -49,6 +45,8 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 - **argparse**
 - **typing**
 - **presidio_anonymizer.operators**
+- **os**
+- **yaml**
 
 ---
 ### Setup
@@ -75,9 +73,14 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 1. Run the main file:
 
     ```bash
-    python Log-Anonymization-RCAC/presidio/main_implementation.py -i <input_sys_log_name> -o <output_file_name>
+    python Log-Anonymization-RCAC/presidio/main_implementation.py -i <input_sys_log_name> -o <output_file_name> -y <yaml_files_dir_name> -e <entity_yaml_file_name>
     ```
 
+    Required flags:
+    - -i: name of the input system log that need to be anonymized
+    - -o: name of the output file that will store the anonymized system log
+    - -y: name of the directory that contains all the YAML files which are used as recognizers
+    - -e: YAML file that contains the name of all the entity types
 
 ---
 ### References
