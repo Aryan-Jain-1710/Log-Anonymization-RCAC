@@ -83,8 +83,8 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
     - `-e`: YAML file that contains the name of all the entity types
 
 ---
-### References
+### Acknowledgement and Reference
 
--  [https://cryptobook.nakov.com/digital-signatures/rsa-sign-verify-examples](https://microsoft.github.io/presidio/)
+-  [Microsoft Presidio](https://microsoft.github.io/presidio/)
    - for Microsoft Presidio Usage
 ---
