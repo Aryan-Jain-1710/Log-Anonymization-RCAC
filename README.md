@@ -20,10 +20,10 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
 
 ### Project Structure:
 
-- **presidio/main_implementation.py**: the main file of the framework that creates instances of all the YAML file recognizers and adds them to the recognizer registry to identify sensitive data and then adds a new operator class to anonymize the sensitive data without loss of semantics.
-- **presidio/operator_typehash.py**: created a new operator class that can be added to the existing list of anonymizing operators and be used to anonymize the analyzed content.
-- **presidio/yaml_files**: the directory contains all the YAML files that are used for recognizers.
-- **presidio/config.yaml**: this YAML file contains the names of all the entity types for which the recognizers are implemented.
+- `presidio/main_implementation.py`: the main file of the framework that creates instances of all the YAML file recognizers and adds them to the recognizer registry to identify sensitive data and then adds a new operator class to anonymize the sensitive data without loss of semantics.
+- `presidio/operator_typehash.py`: created a new operator class that can be added to the existing list of anonymizing operators and be used to anonymize the analyzed content.
+- `presidio/yaml_files`: the directory contains all the YAML files that are used for recognizers.
+- `presidio/config.yaml`: this YAML file contains the names of all the entity types for which the recognizers are implemented.
 
 ---
 
@@ -77,10 +77,10 @@ In this project, we implemented a framework in Python using Microsoft Presidio t
     ```
 
     Required flags:
-    - -i: name of the input system log that need to be anonymized
-    - -o: name of the output file that will store the anonymized system log
-    - -y: name of the directory that contains all the YAML files which are used as recognizers
-    - -e: YAML file that contains the name of all the entity types
+    - `-i`: name of the input system log that need to be anonymized
+    - `-o`: name of the output file that will store the anonymized system log
+    - `-y`: name of the directory that contains all the YAML files which are used as recognizers
+    - `-e`: YAML file that contains the name of all the entity types
 
 ---
 ### References
